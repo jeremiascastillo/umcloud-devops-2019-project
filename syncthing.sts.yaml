@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: syncthing
+  labels:
+    run: syncthing
+spec:
+  selector:
+    matchLabels:
+      run: syncthing
+  serviceName: "syncthing"
+  template:
+    metadata:
+      generateName: syncthing
+      labels:
+        run: syncthing
+    spec:
+      containers:
+      - image: linuxserver/syncthing
+        name: syncthing
+        resources: {}
+        volumeMounts:
+        - mountPath: /config
+          name: syncthing-config-vol
+  volumeClaimTemplates:
+   - metadata:
+       name: syncthing-config-vol
+     spec:
+       accessModes: [ "ReadWriteOnce" ]
+       resources:
+         requests:
+           storage: 1Gi

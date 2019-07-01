@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    name: oauth2-proxy
+  spec:
+    rules:
+    - host: syncthing.jcastillo.kube.um.edu.ar
+      http:
+        paths:
+        - backend:
+            serviceName: oauth2-proxy
+            servicePort: 4180
+          path: /oauth2
+          
+          
+          
+          

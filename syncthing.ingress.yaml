@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    annotations:
+       nginx.ingress.kubernetes.io/auth-url: "http://$host/oauth2/auth"
+       nginx.ingress.kubernetes.io/auth-signin: "http://$host/oauth2/start?rd=$escaped_request_uri"  
+    name: syncthing
+  spec:
+    rules:
+    - host: syncthing.jcastillo.kube.um.edu.ar
+      http:
+        paths:
+        - backend:
+            serviceName: syncthing
+            servicePort: 80
+          path: /
