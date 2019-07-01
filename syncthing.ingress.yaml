@@ -5,8 +5,8 @@ items:
   kind: Ingress
   metadata:
     annotations:
-       nginx.ingress.kubernetes.io/auth-url: "http://$host/oauth2/auth"
-       nginx.ingress.kubernetes.io/auth-signin: "http://$host/oauth2/start?rd=$escaped_request_uri"  
+       nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+       nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
     name: syncthing
   spec:
     rules:
