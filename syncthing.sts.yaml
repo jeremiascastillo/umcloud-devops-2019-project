@@ -15,6 +15,19 @@ spec:
       labels:
         run: syncthing
     spec:
+      initContainers:
+        - name: copy-config
+          image: busybox
+          command: ['sh', '-c', 'cd config', 'cp config.xml config-tmp.xml', 'for i in ${DEVICES[@]} do if grep "<device id=\"$i\" name" config.xml; then echo "$i"; else c="<device id=\"$i\" name=\"\" compression=\"metadata\" introducer=\"false\" skipIntroductionRemovals=\"false\" introducedBy=\"\"><address>dynamic<\/address><paused>false<\/paused><autoAcceptFolders>true<\/autoAcceptFolders><maxSendKbps>0<\/maxSendKbps><maxRecvKbps>0<\/maxRecvKbps><maxRequestKiB>0<\/maxRequestKiB><\/device>"; sed -i".back" -e"/<\/configuration>/ s/.*/$c\n&/" config.xml; fi done']
+          env:
+            - name: DEVICES
+              valueFrom:
+                configMapKeyRef:
+                  name: syncthing-device-config
+                  key: devices
+          volumeMounts:
+            - mountPath: /config
+              name: syncthing-config-vol
       containers:
       - image: linuxserver/syncthing
         name: syncthing

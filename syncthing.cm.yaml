@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  devices: '"2C3REAL-R5PM3HN-PHAQ2WB-YL247U2-NQR2G7R-LV5PKIF-QOLHKZH-4CTCSAO" "XDDESZ7-VFXC6NJ-42W2EVK-LSV5QUG-PXMWQ2M-FKPLUV5-EXBQNTV-YHPIFA2"'
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: syncthing-device-config
