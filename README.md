@@ -43,3 +43,22 @@ Usé un [Deployment](https://github.com/jeremiascastillo/umcloud-devops-2019-pro
   > `certmanager.k8s.io/cluster-issuer: letsencrypt-prod`
   
 ## PeerID loading
+
+  Mi intento de implementación (sin funcionar) esta en la branch [peerid-loading](https://github.com/jeremiascastillo/umcloud-devops-2019-project/tree/peerid-loading). 
+  
+  Debido a que la configuración de los devices esta en en el archivo **/config/config.xml** con el formato:
+  
+  > `<device id="SJS5NQT-GRDZOFR-6YKWREJ-KPSUR45-4BAE3WY-CMAWB6U-XBEAXAL-S4OUDAK" name="syncthing-0" compression="metadata" introducer="false" skipIntroductionRemovals="false" introducedBy="">
+  >      <address>dynamic</address>
+  >      <paused>false</paused>
+  >      <autoAcceptFolders>true</autoAcceptFolders>
+  >      <maxSendKbps>0</maxSendKbps>
+  >      <maxRecvKbps>0</maxRecvKbps>
+  >      <maxRequestKiB>0</maxRequestKiB>
+  >  </device>`
+
+  La idea es definir un [ConfigMap](https://github.com/jeremiascastillo/umcloud-devops-2019-project/blob/peerid-loading/syncthing.cm.yaml) en donde agregar los ID de los devices que quiero que esten sincronizados. 
+  
+  Para poder revisar si en el config.xml se encontraban los ID devices ya definidos o había que agregarlos, creé un **initContainer** en donde se ejecuta una serie de comandos para parsear el archivo y agregar en caso de ser necesario. Este script es [add-devices.sh](https://github.com/jeremiascastillo/umcloud-devops-2019-project/blob/peerid-loading/add-device.sh) que termine agregando su contenido dentro de la etiqueta **command:** del initContainer. Estos comandos toman de la variable de entorno **DEVICES** que se completa con lo definido en el ConfigMap de los devices IDs.
+  
+  El problema es que no pude lograr que la secuencia de comandos se ejecutará correctamente y modificará el config.xml de manera correcta.  
